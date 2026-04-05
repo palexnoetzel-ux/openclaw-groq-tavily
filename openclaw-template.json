@@ -1,0 +1,110 @@
+{
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "apiKey": "ollama-local",
+        "api": "ollama",
+        "models": [
+          {
+            "id": "qwen2.5:7b",
+            "name": "qwen2.5:7b",
+            "api": "ollama",
+            "reasoning": false,
+            "input": ["text"],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 65536,
+            "maxTokens": 16384
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/qwen2.5:7b",
+        "fallbacks": ["groq/llama-3.3-70b-versatile"]
+      },
+      "models": {
+        "ollama/qwen2.5:7b": { "alias": "local" },
+        "groq/llama-3.3-70b-versatile": { "alias": "pro" }
+      },
+      "workspace": "C:\\Users\\USERNAME\\.openclaw\\workspace",
+      "compaction": { "mode": "default" },
+      "maxConcurrent": 2,
+      "subagents": { "maxConcurrent": 4 }
+    }
+  },
+  "tools": {
+    "deny": ["image_generate"],
+    "alsoAllow": ["tavily_search", "tavily_extract"],
+    "byProvider": {
+      "system": { "allow": ["*"] },
+      "groq": {
+        "deny": ["ollama_web_search", "ollama_web_fetch", "web_search", "web_fetch"],
+        "allow": ["tavily_search", "tavily_extract"]
+      },
+      "ollama": {
+        "allow": ["*", "ollama_web_search", "ollama_web_fetch"],
+        "deny": ["web_search", "web_fetch", "tavily_search", "tavily_extract"]
+      }
+    },
+    "web": {
+      "search": { "enabled": true, "provider": "tavily" },
+      "fetch": { "enabled": true }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions",
+    "tts": {
+      "auto": "always",
+      "provider": "microsoft",
+      "providers": {
+        "microsoft": {
+          "enabled": true,
+          "voice": "en-US-MichelleNeural",
+          "lang": "en-US"
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "allowlist",
+      "botToken": "YOUR_TELEGRAM_BOT_TOKEN",
+      "allowFrom": ["YOUR_TELEGRAM_ID"],
+      "groupPolicy": "allowlist",
+      "streaming": "block"
+    }
+  },
+  "plugins": {
+    "allow": ["groq", "tavily", "deepgram"],
+    "entries": {
+      "groq": { "enabled": true },
+      "tavily": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "apiKey": "tvly-dev-YOURKEY",
+            "baseUrl": "https://api.tavily.com"
+          }
+        }
+      },
+      "brave": { "enabled": false },
+      "deepgram": { "enabled": true }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "groq:manual": { "provider": "groq", "mode": "token" },
+      "tavily:manual": { "provider": "tavily", "mode": "token" }
+    }
+  }
+}

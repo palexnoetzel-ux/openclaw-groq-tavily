@@ -1,0 +1,24 @@
+# Continue.dev config for OpenClaw + Groq + Local
+# Place this file at: %USERPROFILE%\.continue\config.yaml (Windows)
+# or ~/.continue/config.yaml (Mac/Linux)
+
+name: Local Config
+version: 1.0.0
+schema: v1
+models:
+  - name: OpenClaw Groq
+    provider: openai
+    model: groq/llama-3.3-70b-versatile
+    apiBase: http://127.0.0.1:18789/v1
+    apiKey: any
+    roles:
+      - chat
+      - edit
+
+  - name: OpenClaw Local
+    provider: openai
+    model: ollama/qwen2.5:7b
+    apiBase: http://127.0.0.1:18789/v1
+    apiKey: any
+    roles:
+      - autocomplete

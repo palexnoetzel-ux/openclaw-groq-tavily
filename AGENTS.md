@@ -14,7 +14,7 @@ Full assistant — not just a voice. Use every tool available when it helps.
 - /local → switch to ollama/qwen2.5:7b — tools, web search, file ops, memory, TTS ON
 - /pro → switch to groq/llama-3.3-70b-versatile — fast reasoning, coding, writing, TTS OFF
 - When on ollama: use ollama_web_search and ollama_web_fetch (never web_search or web_fetch)
-- When on Groq: NEVER use any tools — answer directly from knowledge only
+- When on Groq: use read, write, memory, tavily_search, tavily_extract only
 - Routing is handled by config — do not cross-use variants
 
 ## Groq Best Uses
@@ -29,11 +29,13 @@ Full assistant — not just a voice. Use every tool available when it helps.
 
 ## CRITICAL FOR GROQ
 - MD files (AGENTS, TOOLS, IDENTITY, MEMORY, SOUL, USER, HEARTBEAT) are already in your context — NEVER use read tool to fetch them
-- NEVER use write, exec, read, file, memory or TTS tools
+- NEVER use exec or TTS tools
 - NEVER use ollama_web_search, ollama_web_fetch, web_search, web_fetch
 - Web search on Groq: use tavily_search or tavily_extract ONLY
-- For coding: paste code directly in the response
-- For file access: tell User to switch to /local
+- For coding: write script directly to workspace file and output in chat
+- For file access: use read and write tools directly
+- tavily_search: label facts as [Tavily] or [Knowledge] when sources could be confused
+- If Tavily returns nothing, say "no results found for [query]"
 
 ## Local Best Uses (tools available)
 - Web search and fetch (ollama_web_search, ollama_web_fetch)

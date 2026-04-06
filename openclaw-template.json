@@ -1,4 +1,19 @@
 {
+  "meta": {
+    "lastTouchedVersion": "2026.4.2",
+    "lastTouchedAt": "2026-04-06T09:00:13.242Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-27T22:24:05.602Z",
+    "lastRunVersion": "2026.3.24",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "update": {
+    "auto": {
+      "enabled": true
+    }
+  },
   "models": {
     "providers": {
       "ollama": {
@@ -45,10 +60,24 @@
     "deny": ["image_generate"],
     "alsoAllow": ["tavily_search", "tavily_extract"],
     "byProvider": {
-      "system": { "allow": ["*"] },
+      "system": {
+        "allow": ["*"]
+      },
       "groq": {
-        "deny": ["ollama_web_search", "ollama_web_fetch", "web_search", "web_fetch"],
-        "allow": ["tavily_search", "tavily_extract"]
+        "deny": [
+          "ollama_web_search",
+          "ollama_web_fetch",
+          "web_search",
+          "web_fetch"
+        ],
+        "allow": [
+          "tavily_search",
+          "tavily_extract",
+          "read",
+          "write",
+          "memory_get",
+          "memory_search"
+        ]
       },
       "ollama": {
         "allow": ["*", "ollama_web_search", "ollama_web_fetch"],
@@ -74,6 +103,12 @@
       }
     }
   },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
   "channels": {
     "telegram": {
       "enabled": true,
@@ -84,9 +119,32 @@
       "streaming": "block"
     }
   },
+  "gateway": {
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": ""
+    },
+    "http": {
+      "endpoints": {
+        "chatCompletions": { "enabled": true }
+      }
+    }
+  },
   "plugins": {
-    "allow": ["groq", "tavily", "deepgram"],
+    "allow": [
+      "openclaw-web-search",
+      "telegram",
+      "groq",
+      "tavily",
+      "brave",
+      "deepgram",
+      "ollama"
+    ],
     "entries": {
+      "openclaw-web-search": { "enabled": true, "config": {} },
+      "telegram": { "enabled": true, "config": {} },
       "groq": { "enabled": true },
       "tavily": {
         "enabled": true,
@@ -98,13 +156,22 @@
         }
       },
       "brave": { "enabled": false },
-      "deepgram": { "enabled": true }
+      "deepgram": { "enabled": true },
+      "ollama": { "enabled": true }
+    },
+    "installs": {
+      "openclaw-web-search": {
+        "source": "npm",
+        "spec": "@ollama/openclaw-web-search",
+        "installPath": "C:\\Users\\USERNAME\\.openclaw\\extensions\\openclaw-web-search"
+      }
     }
   },
   "auth": {
     "profiles": {
       "groq:manual": { "provider": "groq", "mode": "token" },
-      "tavily:manual": { "provider": "tavily", "mode": "token" }
+      "tavily:manual": { "provider": "tavily", "mode": "token" },
+      "deepgram:manual": { "provider": "deepgram", "mode": "token" }
     }
   }
 }

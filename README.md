@@ -13,6 +13,7 @@ This setup took several days to figure out. Sharing it so nobody else has to go 
 - Local model (ollama/qwen2.5:7b) with its own separate tool routing
 - TTS auto-off on Groq (prevents tool call failures)
 - Clean agent MD files that keep both models behaved
+- **VS Code integration via Continue.dev** — Groq for chat, local model for autocomplete
 
 ---
 
@@ -187,7 +188,53 @@ Key rules that must be in your `AGENTS.md` for Groq to behave:
 
 ---
 
-## License
+## VS Code Integration (Continue.dev)
+
+Use Groq for chat and local model for autocomplete directly inside VS Code.
+
+### Step 1 — Install Continue
+
+Open VS Code Extensions, search for `Continue - Codestral, Claude, and more` by Continue.dev and install it.
+
+### Step 2 — Configure
+
+Open the Continue config file (`~/.continue/config.yaml` on Mac/Linux, `%USERPROFILE%\.continue\config.yaml` on Windows) and add:
+
+```yaml
+name: Local Config
+version: 1.0.0
+schema: v1
+models:
+  - name: OpenClaw Groq
+    provider: openai
+    model: groq/llama-3.3-70b-versatile
+    apiBase: http://127.0.0.1:18789/v1
+    apiKey: any
+    roles:
+      - chat
+      - edit
+
+  - name: OpenClaw Local
+    provider: openai
+    model: ollama/qwen2.5:7b
+    apiBase: http://127.0.0.1:18789/v1
+    apiKey: any
+    roles:
+      - autocomplete
+```
+
+See `continue-config.yaml` in this repo for the ready-to-use file.
+
+### How it works
+
+- **Groq** handles chat and code editing in the Continue panel
+- **Local qwen** handles autocomplete suggestions as you type
+- OpenClaw must be running at `http://127.0.0.1:18789`
+- No extra API keys needed in VS Code — everything routes through OpenClaw
+
+---
+
+
 
 MIT — use freely, share improvements.
 
